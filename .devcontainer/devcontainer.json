@@ -1,0 +1,39 @@
+{
+  "name": "Salesforce Project",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installJdk": true
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "salesforce.salesforcedx-vscode-expanded",
+        "chuckjonas.apex-pmd",
+        "salesforce.salesforcedx-einstein-gpt",
+        "StackSpotAI.StackSpotAI"
+      ],
+      "settings": {
+        "salesforcedx-vscode-apex.java.home": "/usr/local/sdkman/candidates/java/current",
+        "apexPMD.pmdBinPath": "/opt/pmd/bin/pmd"
+      }
+    }
+  },
+  "updateContentCommand": {
+    "checkSf": "sf --version",
+    "trustSfPlugins": "mkdir ~/.config/sf/ && echo '[ \"shane-sfdx-plugins\", \"sfdx-plugin-source-read\", \"code-analyzer\" ]' > ~/.config/sf/unsignedPluginAllowList.json",
+    "installSfShane": "sf plugins install shane-sfdx-plugins",
+    "installSfSourceRead": "sf plugins install sfdx-plugin-source-read",
+    "installSfCodeAnalyzer": "sf plugins install code-analyzer"
+  },
+  "postCreateCommand": {
+    "linkAccelerator": "npm install && npm link",
+    "authorizeOrg": "export $(cat ./salesforce.env | xargs) && sf org login access-token -r $SF_URL --no-prompt",
+    "echoDotEnv": "export $(cat ./salesforce.env | xargs) && echo $SF_URL && echo $SF_ACCESS_TOKEN"
+  },
+  "remoteUser": "node"
+}
