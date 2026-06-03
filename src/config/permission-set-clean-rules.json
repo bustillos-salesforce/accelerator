@@ -1,0 +1,11 @@
+{
+    "fieldPermissions": ["readable", "editable"],
+    "objectPermissions": ["allowRead", "allowEdit", "allowCreate", "allowDelete", "viewAllRecords", "modifyAllRecords"],
+    "userPermissions": ["enabled"],
+    "tabSettings": ["visibility"],
+    "classAccesses": ["enabled"],
+    "pageAccesses": ["enabled"],
+    "applicationVisibilities": ["visible"],
+    "recordTypeVisibilities": ["visible"],
+    "customPermissions": ["enabled"]
+}
