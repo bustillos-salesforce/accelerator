@@ -10,5 +10,3 @@
 
 !.devcontainer/
 !.devcontainer/**
-
-!salesforce.env
