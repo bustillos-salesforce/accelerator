@@ -1,0 +1,9 @@
+*
+
+!src/
+!src/**
+
+!accelerator.js
+!package.json
+!README.md
+!.gitignore

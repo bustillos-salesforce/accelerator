@@ -1,0 +1,22 @@
+{
+  "name": "accelerator",
+  "version": "1.0.0",
+  "description": "Salesforce Profile to Permission Set Migration Tool",
+  "main": "src/index.js",
+  "bin": {
+    "accelerator": "accelerator.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "fast-xml-parser": "^5.8.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^14.0.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "commonjs"
+}
