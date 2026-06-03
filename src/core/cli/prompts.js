@@ -1,4 +1,3 @@
-const inquirer = require('inquirer');
 const sfCli = require('../infra/SfCli');
 const logger = require('../infra/Logger');
 
@@ -36,6 +35,7 @@ async function resolveTargetOrg(targetOrgFlag) {
         value: org.alias || org.username
     }));
 
+    const inquirer = await import('inquirer');
     const { selectedOrg } = await inquirer.default.prompt([
         {
             type: 'select',
