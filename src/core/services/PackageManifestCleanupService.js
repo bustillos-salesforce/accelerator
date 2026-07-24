@@ -1,10 +1,51 @@
 const fs = require('fs-extra');
+const path = require('path');
 const logger = require('../infra/Logger');
 const pathResolver = require('../infra/PathResolver');
 
 class PackageManifestCleanupService {
     constructor() {
         this.removals = [
+            {
+                type: 'externalClientApps',
+                members: [],
+            },
+            {
+                type: 'extlClntAppGlobalOauthSets',
+                members: [],
+            },
+            {
+                type: 'extlClntAppOauthPolicies',
+                members: [],
+            },
+            {
+                type: 'extlClntAppOauthSecuritySettings',
+                members: [],
+            },
+            {
+                type: 'extlClntAppOauthSettings',
+                members: [],
+            },
+            {
+                type: 'extlClntAppPolicies',
+                members: [],
+            },
+            {
+                type: 'certs',
+                members: [],
+            },
+            {
+                type: 'iframeWhiteListUrlSettings',
+                members: [],
+            },
+            {
+                type: 'flowDefinitions',
+                members: [],
+            },
+            {
+                type: 'namedCredentials',
+                members: [],
+            },
             {
                 type: 'CleanDataService',
                 members: ['DataCloudGeoLocation'],
@@ -16,23 +57,152 @@ class PackageManifestCleanupService {
             {
                 type: 'ListView',
                 members: [
+                    'ActivationTarget.My_S3_ActivationTargets',
+                    'ActivationTarget.All_ActivationTargets',
+                    'ActivationTarget.My_ActivationTargets',
+                    'ActivationTarget.My_MCIS_ActivationTargets',
+                    'ActivationTarget.My_SFMC_ActivationTargets',
+                    'AlternativePaymentMethod.AlternativePaymentMethod',
+                    'AppointmentInvitation.All_AppointmentInvitations',
+                    'AppointmentInvitation.My_AppointmentInvitations',
+                    'ApprovalSubmission.All_ApprovalSubmissions',
+                    'ApprovalSubmission.My_ApprovalSubmissions',
+                    'ApprovalSubmission.Pending_ApprovalSubmissions',
+                    'ApprovalSubmissionDetail.All_ApprovalSubmissionDetails',
+                    'ApprovalWorkItem.All_ApprovalWorkItems',
+                    'ApprovalWorkItem.Assigned_ApprovalWorkItems',
+                    'AssetAction.AssetAction',
+                    'AssetActionSource.AssetActionSource',
+                    'AssetStatePeriod.AssetStatePeriod',
+                    'AuthorizationForm.All_AuthorizationForms',
+                    'AuthorizationFormConsent.All_AuthorizationFormConsents',
+                    'AuthorizationFormDataUse.All_AuthorizationFormDataUses',
+                    'AuthorizationFormText.All_AuthorizationFormText',
+                    'BusinessBrand.All_BusinessBrands',
+                    'BuyerGroup.All_Buyer_Groups',
+                    'BuyerGroup.My_Buyer_Groups',
+                    'CardPaymentMethod.CardPaymentMethod',
                     'ChangeRequest.AllChangeRequestsDefault',
+                    'CollaborationGroup.All_ChatterGroups',
                     'CommSubscriptionChannelType.All_CommSubscriptionChannelTypes',
+                    'CommSubscription.All_CommSubscriptions',
+                    'CommSubscriptionConsent.All_CommSubscriptionConsents',
+                    'CommSubscriptionTiming.All_CommSubscriptionTimings',
+                    'ContactPointAddress.All_ContactPointAddresses',
+                    'ContactPointConsent.All_ContactPointConsents',
+                    'ContactPointEmail.All_ContactPointEmails',
+                    'ContactPointPhone.All_ContactPointPhones',
+                    'ContactPointTypeConsent.All_ContactPointTypeConsents',
+                    'ContactRequest.My_ContactRequests',
+                    'ConsumptionSchedule.All_ConsumptionSchedules',
+                    'ConsumptionSchedule.My_ConsumptionSchedules',
+                    'ContentDocument.OwnedContentDocuments',
+                    'Coupon.ALL_Coupons',
+                    'CreditMemo.mine',
+                    'Customer.All_Customers',
+                    'DataAction.All_DataActions',
+                    'DataActionTarget.All_DataActionTargets',
+                    'DataActionTarget.My_DataActionTargets',
+                    'DataGraph.All_DataGraphs',
+                    'DataLakeObjectInstance.All_DataLakeObjectInstances',
+                    'DataMaskCustomValueLibrary.All_DataMaskCustomValueLibraries',
+                    'DataQueryWorkspace.All_DataQueryWorkspaces',
+                    'DataQueryWorkspace.My_DataQueryWorkspaces',
+                    'DataStream.All_DataStreams',
+                    'DataUseLegalBasis.All_DataUseLegalBases',
+                    'DataUsePurpose.All_DataUsePurposes',
+                    'DigitalWallet.DigitalWallet',
+                    'EngagementChannelType.All_EngagementChannelTypes',
                     'EngagementChannelWorkType.My_EngagementChannelWorkTypes',
                     'EngagementChannelWorkType.All_EngagementChannelWorkTypes',
+                    'Entitlement.All_Entitlements',
+                    'Event.MyRecentEvents',
+                    'Event.MyTeamsRecentEvents',
+                    'Event.MyTeamsUpcomingEvents',
+                    'Event.MyUpcomingEvents',
+                    'Event.TodaysAgenda',
+                    'ExtDataShare.All_ExtDataShares',
+                    'ExtDataShareTarget.All_ExtDataShareTargets',
+                    'ExtDataShareTarget.My_ExtDataShareTargets',
+                    'FinanceBalanceSnapshot.mine',
+                    'FinanceTransaction.mine',
+                    'FlowOrchestrationInstance.All_Orchestration_Instances',
+                    'FlowOrchestrationWorkItem.ALL_Open_Work_Items',
+                    'FlowOrchestrationWorkItem.All_Work_Items',
                     'FulfillmentOrder.all_fulfillment_orders',
+                    'Idea.Ideas_Last_7_Days',
                     'Incident.AllIncidentsDefault',
                     'Incident.MyIncidents',
+                    'IdentityResolution.All_IdentityResolutions',
+                    'Individual.All_Individuals',
+                    'Invoice.mine',
+                    'LegalEntity.mine',
+                    'Location.all_locations',
+                    'LocationGroup.LocationGroup',
+                    'MarketSegment.All_MarketSegments',
+                    'MarketSegmentActivation.All_MarketSegmentActivations',
+                    'MktCalculatedInsight.All_MktCalculatedInsights',
+                    'MktDataTransform.All_MktDataTransforms',
+                    'MktDataTransform.My_MktDataTransforms',
+                    'MktMLModel.All_MktMLModels',
+                    'MktMLModel.My_MktMLModels',
+                    'OperatingHours.All_OperatingHours',
+                    'PartyConsent.All_PartyConsents',
+                    'Payment.Payment',
+                    'PaymentAuthorization.PaymentAuthorization',
+                    'PaymentAuthAdjustment.PaymentAuthAdjustment',
+                    'PaymentGateway.PaymentGateway',
                     'PaymentGroup.PaymentGroup',
+                    'PaymentLineInvoice.PaymentLineInvoice',
+                    'Pricebook2.All_Pricebooks',
+                    'ProcessException.all_process_exceptions',
                     'Problem.AllOpenProblems',
                     'Problem.AllProblemsDefault',
+                    'ProductCatalog.All_Product_Catalogs_List_View',
+                    'ProductCategory.Org_ProductCategory_Hierarchy',
+                    'ProductCategory.All_Product_Categories_List_View',
+                    'ProductCategory.Category_Hierarchy_SM',
+                    'Recommendation.All_Recommendations',
+                    'Refund.Refund',
+                    'RefundLinePayment.RefundLinePayment',
+                    'ReturnOrder.All_ReturnOrders',
+                    'ReturnOrder.My_ReturnOrders',
+                    'Scorecard.AllScorecards',
+                    'Scorecard.MyScorecards',
+                    'Seller.All_Sellers',
                     'ServiceAppointment.All_ServiceAppointments',
                     'ServiceAppointment.MyPendingAppointments',
                     'ServiceAppointment.MyScheduledAppointments',
+                    'ServiceContract.All_ServiceContracts',
+                    'ServiceResource.All_ServiceResources',
+                    'ServiceResource.My_ServiceResources',
+                    'ServiceTerritory.All_ServiceTerritories',
+                    'ServiceTerritory.My_ServiceTerritories',
+                    'Shift.All_Shifts',
                     'ShiftEngagementChannel.My_ShiftEngagementChannels',
                     'ShiftEngagementChannel.All_ShiftEngagementChannels',
+                    'Shift.My_Shifts',
                     'ShiftWorkTopic.My_ShiftWorkTopics',
                     'ShiftWorkTopic.All_ShiftWorkTopics',
+                    'SocialPersona.AllSocialPersonas',
+                    'Task.CompletedTasks',
+                    'Task.DelegatedTasks',
+                    'Task.OpenTasks',
+                    'Task.OverdueTasks',
+                    'Task.RecurringTasks',
+                    'Task.TodaysTasks',
+                    'Task.UnscheduledTasks',
+                    'VoiceCall.My_VoiceCalls',
+                    'Waitlist.All_Waitlists',
+                    'Waitlist.My_Waitlists',
+                    'WebCart.All_WebCarts',
+                    'WebCart.Owned_WebCarts',
+                    'WorkOrder.All_WorkOrders',
+                    'WorkOrder.My_WorkOrders',
+                    'WorkType.All_WorkTypes',
+                    'WorkType.My_WorkTypes',
+                    'WorkTypeGroup.All_WorkTypeGroups',
+                    'WorkTypeGroup.My_WorkTypeGroups'
                 ],
             },
             {
@@ -271,6 +441,10 @@ class PackageManifestCleanupService {
         }
 
         const block = match[0];
+        if (membersToRemove.length === 0) {
+            return { xml: xml.replace(block, ''), removed: [metadataType] };
+        }
+
         const lines = block.split(/\r?\n/);
         const remainingLines = [];
         const removed = [];
@@ -295,6 +469,21 @@ class PackageManifestCleanupService {
         return { xml: xml.replace(block, cleanedBlock), removed };
     }
 
+    async removeMetadataDirectories(projectRoot, metadataTypes) {
+        const directoriesToRemove = metadataTypes
+            .filter((metadataType) => metadataType && metadataType !== 'Settings')
+            .map((metadataType) => path.join(projectRoot, 'force-app', 'main', 'default', metadataType));
+
+        for (const directoryPath of directoriesToRemove) {
+            try {
+                await fs.remove(directoryPath);
+                logger.info(`Diretório removido: ${directoryPath}`);
+            } catch (error) {
+                logger.warn(`Não foi possível remover o diretório ${directoryPath}: ${error.message}`);
+            }
+        }
+    }
+
     async execute({ manifestFilePath, dryRun = false } = {}) {
         const resolvedManifestPath = manifestFilePath
             ? pathResolver.resolveFromCwd(manifestFilePath)
@@ -316,6 +505,10 @@ class PackageManifestCleanupService {
             }
         }
 
+        const metadataTypesToRemove = this.removals
+            .filter((entry) => entry.members.length === 0)
+            .map((entry) => entry.type);
+
         if (dryRun) {
             logger.info(`Dry run para ${resolvedManifestPath}`);
             return {
@@ -328,6 +521,9 @@ class PackageManifestCleanupService {
 
         await fs.writeFile(resolvedManifestPath, updatedXml, 'utf8');
         logger.info(`Manifest limpo em ${resolvedManifestPath}`);
+
+        const projectRoot = pathResolver.resolveFromCwd();
+        await this.removeMetadataDirectories(projectRoot, metadataTypesToRemove);
 
         return {
             manifestFilePath: resolvedManifestPath,
