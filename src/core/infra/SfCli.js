@@ -1,12 +1,13 @@
 const { exec } = require('child_process');
 const util = require('util');
 const execPromise = util.promisify(exec);
+const pathResolver = require('./PathResolver');
 
 class SfCli {
     async run(command, options = {}) {
         try {
             const { stdout, stderr } = await execPromise(command, {
-                cwd: options.cwd || process.cwd(),
+                cwd: options.cwd || pathResolver.resolveFromProjectRoot(),
                 maxBuffer: 1024 * 1024 * 10 // 10MB
             });
             return {

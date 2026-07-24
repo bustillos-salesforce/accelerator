@@ -4,7 +4,8 @@
   "description": "Salesforce Profile to Permission Set Migration Tool",
   "main": "src/index.js",
   "bin": {
-    "accelerator": "accelerator.js"
+    "accelerator": "accelerator.js",
+    "acc": "accelerator.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
